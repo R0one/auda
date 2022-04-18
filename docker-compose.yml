@@ -14,6 +14,8 @@ services:
         target: /etc/config/hydra/
     environment:
       - DSN=mysql://root:secret@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+      - GINGER_URL=http://faux-ginger/index.php/
+      - GINGER_KEY=fauxginger
     restart: unless-stopped
     depends_on:
       - hydra-migrate
@@ -38,7 +40,10 @@ services:
   consent:
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445
-    image: oryd/hydra-login-consent-node:v1.11.7
+      - BASE_URL=http://127.0.0.1:3000
+      - CAS_URL=https://thecas
+    #image: oryd/hydra-login-consent-node:v1.11.7
+    build: git@github.com:R0one/hydra-login-consent-CAS-mysql.git#master
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -53,6 +58,15 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
     networks:
       - intranet
+
+  faux-ginger:
+    image: php:8.1.5RC1-apache
+    ports:
+      - "8001:80"
+    volumes:
+      - type: bind
+        source: ./faux-ginger/
+        target: /var/www/html/
 
 networks:
   intranet:
