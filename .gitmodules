@@ -1,0 +1,6 @@
+[submodule "hydra-login-consent-CAS-mysql"]
+	path = hydra-login-consent-CAS-mysql
+	url = git@github.com:R0one/hydra-login-consent-CAS-mysql.git
+[submodule "faux-ginger"]
+	path = faux-ginger
+	url = git@github.com:simde-utc/faux-ginger.git
