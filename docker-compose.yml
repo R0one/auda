@@ -8,7 +8,7 @@ services:
       - "4444:4444" # Public port
       - "4445:4445" # Admin port
       - "5555:5555" # Port for hydra token user
-    command: serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http
+    command: serve -c /etc/config/hydra/hydra.yml all --dev
     volumes:
       - type: bind
         source: ./etc/config/hydra/
@@ -27,7 +27,7 @@ services:
     image: oryd/hydra:v2.0.2
     platform: "linux/amd64"
     environment:
-      - DSN=mysql://root:secret@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+     - DSN=mysql://root:secret@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
     command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
     volumes:
       - type: bind
@@ -53,7 +53,7 @@ services:
       - intranet
 
   mysqld:
-    image: mysql:5.7
+    image: mysql:8.0.26
     platform: "linux/amd64"
     ports:
       - "3306:3306"
